@@ -11,6 +11,7 @@
             pageHeight = window.innerHeight;
             
         if (typeof pageWidth != "number"){
+        	//标准模式下，clientWidth,scrollLeft等属性需要通过document.documentElement来获取
             if (document.compatMode == "CSS1Compat"){
                 pageWidth = document.documentElement.clientWidth;
                 pageHeight = document.documentElement.clientHeight;
