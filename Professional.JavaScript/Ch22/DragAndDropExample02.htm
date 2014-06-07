@@ -11,19 +11,21 @@
     
         var DragDrop = function(){
         
-            var dragging = null;
+            var dragging = null, offsetX, offsetY;
             
             function handleEvent(event){
             
                 //get event and target
                 event = EventUtil.getEvent(event);
-                var target = EventUtil.getTarget(event);            
+                var target = EventUtil.getTarget(event);
             
                 //determine the type of event
                 switch(event.type){
                     case "mousedown":
                         if (target.className.indexOf("draggable") > -1){
                             dragging = target;
+                            offsetX = event.offsetX;
+                            offsetY = event.offsetY;
                         }                     
                         break;
                         
@@ -31,8 +33,9 @@
                         if (dragging !== null){
                             
                             //assign location
-                            dragging.style.left = event.clientX + "px";
-                            dragging.style.top = event.clientY + "px";                    
+                            //修改为 clientX - 最初的offsetX
+                            dragging.style.left = (event.clientX - offsetX) + "px";
+                            dragging.style.top = (event.clientY - offsetY) + "px";                    
                         }                    
                         break;
                         

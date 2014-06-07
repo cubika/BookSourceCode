@@ -47,46 +47,52 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
 + `encodeURI`只会对空格进行编码，而`encodeURIComponent`可以对空格、冒号、斜线等等编码
 + `Max/Min`方法可以传递对个参数
 + RegExp["$`"] + RegExp["$&"] + RegExp["$'"] = RegExp["$_"]
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Shorthand</th>
-<th>Initial Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>input</td>
-<td>$_</td>
-<td>Empty string.</td>
-</tr>
-<tr>
-<td>lastMatch</td>
-<td>$&amp;</td>
-<td>Empty string.</td>
-</tr>
-<tr>
-<td>lastParen</td>
-<td>$+</td>
-<td>Empty string.</td>
-</tr>
-<tr>
-<td>leftContext</td>
-<td>$`</td>
-<td>Empty string.</td>
-</tr>
-<tr>
-<td>rightContext</td>
-<td>$'</td>
-<td>Empty string.</td>
-</tr>
-<tr>
-<td>$1 - $9</td>
-<td>$1 - $9</td>
-<td>Empty string.</td>
-</tr>
-</tbody>
-</table>
+| Property     | Shorthand | Initial Value |
+|--------------|-----------|---------------|
+| index        |           | -1            |
+| input        | $_        | Empty string. |
+| lastIndex    |           | -1            |
+| lastMatch    | $&        | Empty string. |
+| lastParen    | $+        | Empty string. |
+| leftContext  | $`        | Empty string. |
+| rightContext | $'        | Empty string. |
+| $1 - $9      | $1 - $9   | Empty string. |
 + replace方法可以使用正则表达式，如：
 `text.replace(/(.at)/g, "word ($1)");`
+
+#十七章 错误处理
+###事件相关
++ 获取按键码根据浏览器不同用到的可以有 charCode,keyCode,which
++ 获取按键码最好在**keypress**事件中，而不是在**keyup或者keydown**事件中
++ `event.button`用于返回触发当前事件的鼠标按键是什么，其中0代表鼠标左键，1代表中键，2代表右键
++ 剪贴板对象clipboardData可以通过调用`getData()`和`setData()`用于操作剪贴板的数据。获取该对象可以用`window.clipboardData`或者`event.clipboardData`。使用后者时处在paste事件中。  更多用法参见[http://msdn.microsoft.com/en-us/library/ie/ms535220(v=vs.85).aspx](http://msdn.microsoft.com/en-us/library/ie/ms535220(v=vs.85).aspx "clipboardData object")
+ `var clipboardData =  (event.clipboardData || window.clipboardData);`
+
+#二十二章 高级技术
++ 使用`Object.freeze`方法将对象进行冻结操作，这样该对象就不能添加新的属性，不能修改已有的属性，不能删除属性
++ 使用`Object.preventExtensions`方法使得对象不能够被扩展
++ `Object.seal`和`Object.freeze`的区别：
+| Function                 | Object is made non-extensible | configurable is set to falsefor each property | writable is set to falsefor each property |
+|--------------------------|-------------------------------|-----------------------------------------------|-------------------------------------------|
+| Object.preventExtensions | Yes                           | No                                            | No                                        |
+| Object.seal              | Yes                           | Yes                                           | No                                        |
+| Object.freeze            | Yes                           | Yes                                           | Yes                                       |
+
++ 可以使用bind方法灵活改变context,如果bind方法不可用的话，只能自己实现：
+
+		function bind(fn, context){
+            return function(){
+                return fn.apply(context, arguments);
+            };
+        }
++ 为了避免由于缺少**new**操作符导致的this变量误指向window，可以在为this变量赋值的时候，增加一条判断this是否是当前function的实例的语句，如：
+
+		function Person(name, age, job){
+            if (this instanceof Person){
+                this.name = name;
+                this.age = age;
+                this.job = job;
+            } else {
+                return new Person(name, age, job);
+            }
+        }

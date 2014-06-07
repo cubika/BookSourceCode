@@ -13,14 +13,14 @@ EventTarget.prototype = {
         this.handlers[type].push(handler);
     },
     
-    fire: function(event){
+    fire: function(event){	//浏览器自带的触发事件自动填充event对象，而这里我们只能自己构造event对象
         if (!event.target){
             event.target = this;
         }
         if (this.handlers[event.type] instanceof Array){
-            var handlers = this.handlers[event.type];
-            for (var i=0, len=handlers.length; i < len; i++){
-                handlers[i](event);
+            var handlers = this.handlers[event.type]; //获取该事件的所有handler
+            for (var i=0, len=handlers.length; i < len; i++){ 
+                handlers[i](event); //依次调用之
             }
         }            
     },

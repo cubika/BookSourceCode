@@ -8,16 +8,16 @@
     <div id="myDiv" style="background:red;"></div>
 
     <script type="text/javascript">
-        function object(o){
+        function object(o){ 
             function F(){}
             F.prototype = o;
-            return new F();
+            return new F(); //F将不可被外界访问
         }
             
         function inheritPrototype(subType, superType){
-            var prototype = object(superType.prototype);   //create object
-            prototype.constructor = subType;               //augment object
-            subType.prototype = prototype;                 //assign object
+            var prototype = object(superType.prototype);   //在原型链上创建一个新的对象
+            prototype.constructor = subType;               //纠正constructor和prototype属性
+            subType.prototype = prototype;                 
         }
         
         function Person(name, age){
