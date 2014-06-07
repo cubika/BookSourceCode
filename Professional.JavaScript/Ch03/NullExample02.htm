@@ -5,7 +5,12 @@
     <script type="text/javascript">
           
         alert(null == undefined);   
-              
+        
+        // null == undefined 为 true 
+        /*
+         * 最初的区分： null是一个表示"无"的对象，转为数值时为0；undefined是一个表示"无"的原始值，转为数值时为NaN。
+         * 目前：null表示"没有对象"，即该处不应该有值。
+         */
     </script>
 
 </head>
