@@ -1,7 +1,5 @@
 #第三章： 基础
 
-----------
-
 ###null和undefined
 + 最初的区分： null是一个表示"无"的对象，转为数值时为0；  undefined是一个表示"无"的原始值，转为数值时为NaN。
 + 目前：null表示"没有对象"，即该处不应该有值。  
@@ -30,8 +28,6 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
 + case可以为表达式，如number > 10
 
 #第五章 常用类型
-
-----------
 
 ### Array常用方法
 + **every**方法要求每一个item都满足条件，而some只要求有一个满足就可以了
@@ -70,9 +66,6 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
 
 #第八章 浏览器对象模型BOM
 
-
-----------
-
 + 获取插件的方法：
 	1. 非IE下是**navigator.plugins**或者**navigator.mimeTypes**,具体例子可见：[https://code.google.com/p/doctype-mirror/wiki/ArticleDetectFlash](https://code.google.com/p/doctype-mirror/wiki/ArticleDetectFlash) 
 	2. IE下使用try-catch：
@@ -97,12 +90,17 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
 **BackCompat** Standards-compliant mode is not switched on. (Quirks Mode)  
 **CSS1Compat** Standards-compliant mode is switched on. (Standards Mode)
 
- 
+#十五章 canvas图像
++ canvas元素创建的图像可以通过调用`toDataURL()` 方法将图像导出
++ 2D绘画上下文提供了绘制基本图形的方法，如`fillRect()` 方法填充一个矩形, `arc()` 方法绘制一个圆弧，`fillText()` 方法绘制文字等等，也可以通过调用`drawImage()` 方法绘制一个图形图像
++ canvas的save和restore方法可以对canvas状态进行管理，其中：
+ 	> **save**：用来保存Canvas的状态。save之后，可以调用Canvas的平移、放缩、旋转、错切、裁剪等操作。  
+ 	**restore**：用来恢复Canvas之前保存的状态。防止save后对Canvas执行的操作对后续的绘制有影响。
++ context的`getImageData()` 方法可以用来获取画布上指定矩形的像素数据，对于每一个像素，都存在着RGBA四个方面的信息
++ 更多的内容参考：[https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/Canvas_tutorial](https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/Canvas_tutorial)
 
 
 #第十七章 错误处理
-
-----------
 
 ###事件相关
 + 获取按键码根据浏览器不同用到的可以有 charCode,keyCode,which
@@ -111,9 +109,8 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
 + 剪贴板对象clipboardData可以通过调用`getData()`和`setData()`用于操作剪贴板的数据。获取该对象可以用`window.clipboardData`或者`event.clipboardData`。使用后者时处在paste事件中。  更多用法参见[http://msdn.microsoft.com/en-us/library/ie/ms535220(v=vs.85).aspx](http://msdn.microsoft.com/en-us/library/ie/ms535220(v=vs.85).aspx "clipboardData object")
  `var clipboardData =  (event.clipboardData || window.clipboardData);`
 
-#二十二章 高级技术
 
-----------
+#二十二章 高级技术
 
 + 使用`Object.freeze`方法将对象进行冻结操作，这样该对象就不能添加新的属性，不能修改已有的属性，不能删除属性
 + 使用`Object.preventExtensions`方法使得对象不能够被扩展
