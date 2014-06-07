@@ -7,6 +7,11 @@
     <p>The following code should cause an Operation Aborted error in IE versions prior to 8.</p>
     <div>
         <script type="text/javascript">        
+        
+        /* the code is attempting to modify document.body  
+		 * before it is fully loaded and the  <script>  element 
+		 * is not a direct child of the  <body> element.
+		 */
             document.body.appendChild(document.createElement("div"));    
         </script>
     </div>
