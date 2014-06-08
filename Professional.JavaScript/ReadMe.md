@@ -49,6 +49,7 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
 + `encodeURI`只会对空格进行编码，而`encodeURIComponent`可以对空格、冒号、斜线等等编码
 + `Max/Min`方法可以传递对个参数
 + RegExp["$`"] + RegExp["$&"] + RegExp["$'"] = RegExp["$_"]
+
 		+--------------+-----------+---------------+
 		| Property     | Shorthand | Initial Value |
 		|--------------|-----------|---------------|
@@ -90,12 +91,34 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
 **BackCompat** Standards-compliant mode is not switched on. (Quirks Mode)  
 **CSS1Compat** Standards-compliant mode is switched on. (Standards Mode)
 
-#十五章 canvas图像
+#第十章 DOM
++ 文字节点的nodeType是3，获取文字内容可以用element.textContent获取
++ 在XML文档中的所有文本都会被解析器解析。只有在CDATA部件之内的文本会被解析器忽略。
++ 在DOM操作里，createElement是创建一个新的节点，createDocumentFragment是创建一个文档片段。当要向document.body添加大量数据时，如果逐个添加这些节点，这个过程有可能会十分缓慢。为解决这个问题，可以创建一个文档碎片，把所有的新节点附加其上，然后把文档碎片的内容一次性添加到document中。
++ 属性也是一个节点，因此需要创建并设定该节点：
+		
+		//创建Attribute
+		var attr = document.createAttribute("align");
+        attr.value = "left";
+        element.setAttributeNode(attr);
+
+		//遍历Attribute
+ 		for (i=0, len=element.attributes.length; i < len; i++){
+            attrName = element.attributes[i].nodeName;
+            attrValue = element.attributes[i].nodeValue;
+            pairs.push(attrName + "=\"" + attrValue + "\"");
+        }
+
+
+#第十五章 canvas图像
 + canvas元素创建的图像可以通过调用`toDataURL()` 方法将图像导出
 + 2D绘画上下文提供了绘制基本图形的方法，如`fillRect()` 方法填充一个矩形, `arc()` 方法绘制一个圆弧，`fillText()` 方法绘制文字等等，也可以通过调用`drawImage()` 方法绘制一个图形图像
 + canvas的save和restore方法可以对canvas状态进行管理，其中：
- 	> **save**：用来保存Canvas的状态。save之后，可以调用Canvas的平移、放缩、旋转、错切、裁剪等操作。  
- 	**restore**：用来恢复Canvas之前保存的状态。防止save后对Canvas执行的操作对后续的绘制有影响。
+
+ 	> 
+**save**：用来保存Canvas的状态。save之后，可以调用Canvas的平移、放缩、旋转、错切、裁剪等操作。  
+**restore**：用来恢复Canvas之前保存的状态。防止save后对Canvas执行的操作对后续的绘制有影响。
+
 + context的`getImageData()` 方法可以用来获取画布上指定矩形的像素数据，对于每一个像素，都存在着RGBA四个方面的信息
 + 更多的内容参考：[https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/Canvas_tutorial](https://developer.mozilla.org/zh-CN/docs/Web/Guide/HTML/Canvas_tutorial)
 

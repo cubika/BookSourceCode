@@ -7,6 +7,8 @@
     <meta http-equiv="content-type" content="application/xhtml+xml" />
 </head>
 <body>
+
+	<!-- 在XML文档中的所有文本都会被解析器解析。只有在CDATA部件之内的文本会被解析器忽略。 -->
     <div id="myDiv"><![CDATA[This is some content.]]></div>
     <input type="button" value="Get CData Section" onclick="getCDataSection()" />
     <p>Note that this example uses XHTML, since CData sections are not supported in HTML.</p>

@@ -9,7 +9,9 @@
 
     <script type="text/javascript">
         function getComment(){
-        
+        	
+        	/* 这里使用div.firstChild.data获取到了注释的值
+        	 * 使用div.textContent可以获得文本内容，但因为子节点不是text节点，而是一个注释，因此这种方法获取不到*/
             var div = document.getElementById("myDiv");
             var comment = div.firstChild;
             alert(comment.data);

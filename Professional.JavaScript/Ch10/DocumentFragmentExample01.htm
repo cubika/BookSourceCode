@@ -10,6 +10,7 @@
     <script type="text/javascript">
         function addItems(){
         
+        	/* 避免反复向body中添加dom元素，而是先添加到fragment中，这样提高了效率 */
             var fragment = document.createDocumentFragment();
             var ul = document.getElementById("myList");
             var li = null;
