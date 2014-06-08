@@ -109,6 +109,35 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
             pairs.push(attrName + "=\"" + attrValue + "\"");
         }
 
+#第十六章 DOM扩展
++ **classList** 返回一个元素的class属性的属性值的字段列表.并且classList列表上有多个方法，使用例子如下：
+
+		// div is an object reference to a <div> element with class="foo bar"
+		div.classList.remove("foo");
+		div.classList.add("anotherclass");
+		
+		// if visible is set remove it, otherwise add it
+		div.classList.toggle("visible");
+		
+		alert(div.classList.contains("foo"));
+更多的解释以及使用Javascript实现它的方法可参考：[https://developer.mozilla.org/zh-CN/docs/Web/API/Element.classList](https://developer.mozilla.org/zh-CN/docs/Web/API/Element.classList)
+
++ `Node.compareDocumentPosition` 用于比较当前节点与任意文档中的另一个节点的位置关系，并返回一个比特码代表它们之间的关系。将它和起于IE的contains方法相组合，可以封装为一个统一的**判断一个节点是否包含另一个节点**的方法：
+
+		function contains(a, b) {
+		 return a.contains ? a != b && a.contains(b) : !!(a.compareDocumentPosition(b) & 16);
+		}
++ **firstChild**和**firstElementChild** 的区别是，后者返回的一定是一个Element节点，而前者不一定，也就是说，后者返回的nodeType一定是1.如果第一个元素是文字节点，那么firstChild是这个文字节点，而firstElementChild则不是它，而是后面的第一个Element节点。另：**childNodes**和**children**的区别：
+	>
+`childNodes` contains all nodes, including text nodes consisting entirely of whitespace, while `children` is a collection of just the child nodes that are elements.
++ [Element Travasel](http://www.w3.org/TR/ElementTraversal/) 规范定义了元素遍历接口，允许脚本通过该接口直接遍历DOM树中的元素。包括：
+	1. firstElementChild
+	2. lastElementChild
+	3. previousElementSibling 
+	4. nextElementSibling， 每个属性都提供一个满足对应关系的实时（live）元素（如果有满足条件的元素存在的话，否则为 null）。
+	5. childElementCount 表示该元素所拥有的子元素个数（没有子元素则返回 0）。
++ textContent在IE8及以下不能使用，这时要用innerText，也就是：  
+`var text = element.textContent || element.innerText;`
 
 #第十五章 canvas图像
 + canvas元素创建的图像可以通过调用`toDataURL()` 方法将图像导出
