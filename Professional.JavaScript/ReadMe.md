@@ -93,8 +93,8 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
 
 #第十章 DOM
 + 文字节点的nodeType是3，获取文字内容可以用element.textContent获取
-+ 在XML文档中的所有文本都会被解析器解析。只有在CDATA部件之内的文本会被解析器忽略。
-+ 在DOM操作里，createElement是创建一个新的节点，createDocumentFragment是创建一个文档片段。当要向document.body添加大量数据时，如果逐个添加这些节点，这个过程有可能会十分缓慢。为解决这个问题，可以创建一个文档碎片，把所有的新节点附加其上，然后把文档碎片的内容一次性添加到document中。
++ 在XML文档中的所有文本都会被解析器解析。只有在**CDATA**部件之内的文本会被解析器忽略。
++ 在DOM操作里，createElement是创建一个新的节点，**createDocumentFragment**是创建一个文档片段。当要向document.body添加大量数据时，如果逐个添加这些节点，这个过程有可能会十分缓慢。为解决这个问题，可以创建一个文档碎片，把所有的新节点附加其上，然后把文档碎片的内容一次性添加到document中。
 + 属性也是一个节点，因此需要创建并设定该节点：
 		
 		//创建Attribute
@@ -109,7 +109,7 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
             pairs.push(attrName + "=\"" + attrValue + "\"");
         }
 
-#第十六章 DOM扩展
+#第十一章 DOM扩展
 + **classList** 返回一个元素的class属性的属性值的字段列表.并且classList列表上有多个方法，使用例子如下：
 
 		// div is an object reference to a <div> element with class="foo bar"
@@ -138,6 +138,46 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
 	5. childElementCount 表示该元素所拥有的子元素个数（没有子元素则返回 0）。
 + textContent在IE8及以下不能使用，这时要用innerText，也就是：  
 `var text = element.textContent || element.innerText;`
+
+# 第十二章 DOM 2 和 DOM 3
++ 关于DOM Level的说明：
+	>
+	**DOM Levels** are the versions of the specification for defining how the Document Object Model should work. there are pieces of the DOM spec that vendors can choose to implement, such as Core, HTML, and XML, as well as the event model. Depending on what is being built (a DOM parser, web browser layout engine, or javascript engine), the vendor may choose to implement some or all of the spec. Most modern web browsers implement all of the Level 3 spec.
++ 通过Javascript获取一个元素计算后的CSS属性值的方法：
+`window.getComputedStyle(elem,null).getPropertyValue("height");`
++ 可以使用JavaScript载入和操作XML文档，示例代码如下：
+
+		if (typeof document.implementation.createDocument != "undefined") { //W3C标准
+			docObj = document.implementation.createDocument("", "", null);
+		}else if (window.ActiveXObject) { //IE浏览器
+			docObj = new ActiveXObject ("Microsoft.XMLDOM");
+		}
++ Javascript操作和获取CSS的接口是`document.stylesheets`,需要注意的是，cssRules和rules对应style标签下不为null，若是引用了外部文件，则为null。
+
+		var mysheet=document.styleSheets[0];
+		var myrules=mysheet.cssRules? mysheet.cssRules: mysheet.rules； //获取css规则
+		myrules.style.color="red"; //设定css属性值
++ 在Javascript中要想添加样式规则，可以调用addRule或者insertRule方法：
+
+		function addCSSRule(sheet, selector, rules, index) {
+			if(sheet.insertRule) {
+				sheet.insertRule(selector + "{" + rules + "}", index); //index指的是插入的位置
+			}
+			else {
+				sheet.addRule(selector, rules, index);
+			}T
+		}
++ **Range** 对象表示文档的连续范围区域，如用户在浏览器窗口中用鼠标拖动选中的区域。 调用createRange() 方法可创建新的 Range 对象。当你创建了一个Range对象时，Range实例就会有以下的属性：
+	+ **startContainer** — 返回range对象从何开始的节点对象（父节点的第一个节点）
+	+ **startOffset** — 返回Range开始的偏移量(offset)，如果startContainer是一个文本节点，注释节点，或者是CDATA节点，这个属性返回文本的偏移量，否则返回第一个节点的索引。
+	+ **endContainer** — 返回Range对象最后一个节点对象（父节点的最后一个节点）
+	+ **endOffset** — 返回Range结束时的偏移量(offset)特性与startOffset相同。
+	+ **commonAncestorContainer** — 返回第一个包含该Range对象的节点。
+
+	详见：[http://www.w3school.com.cn/xmldom/dom_range.asp](http://www.w3school.com.cn/xmldom/dom_range.asp)
++ Dom中的**getPropertyValue**方法可以用来获取元素中指定的css属性值。该方法支持W3C标准，与IE中的**currentStyle**方法作用相同，都是根据指定的css属性名称来获取属性值。getPropertyValue必须配合getComputedStyle方法一起使用。
++ **contentWindow** 兼容各个浏览器，可取得子窗口的 window 对象。**contentDocument** IE8 以下不支持，可取得子窗口的 document 对象。所以，获取iframe中的Document可以使用：
+`var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;`
 
 #第十五章 canvas图像
 + canvas元素创建的图像可以通过调用`toDataURL()` 方法将图像导出
