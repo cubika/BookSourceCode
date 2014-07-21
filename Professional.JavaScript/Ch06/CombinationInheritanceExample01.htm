@@ -13,12 +13,14 @@
             alert(this.name);
         };
 
+        // SubType的构造方法里面调用superType的构造方法
         function SubType(name, age){  
             SuperType.call(this, name);
             
             this.age = age;
         }
 
+        // SubType类型的对象的原型链为new SuperType() --> SuperType.prototype
         SubType.prototype = new SuperType();
         
         SubType.prototype.sayAge = function(){

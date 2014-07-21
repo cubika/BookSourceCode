@@ -65,6 +65,40 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
 + replace方法可以使用正则表达式，如：
 `text.replace(/(.at)/g, "word ($1)");`
 
+#第六章 面向对象编程
++ 通过ES5提供的`Object.defineProperty`方法可以创建新的属性，同时为该属性设置get和set方法。
+
+		Object.defineProperty(book, "year", {
+            get: function(){
+                return this._year;
+            },
+            set: function(newValue){
+            
+                if (newValue > 2004) {
+                    this._year = newValue;
+                    this.edition += newValue - 2004;
+                
+                }
+            }
+        });
+	在老式的浏览器中，对应的方法为__defineGetter__ 和 __defineSetter__。
++ defineProperty同时可以设置一些基本属性，如**configurable,enumable,writable**，相应的，可以通过`Object.getOwnPropertyDescriptor`方法进而获取该对象上的上述属性值是否为true.
++ 对于两个已经知道类型的对象，若想让他们实现继承关系，则可以：
+
+ 		function object(o){
+            function F(){}
+            F.prototype = o;
+            return new F();
+        }
+    
+        function inheritPrototype(subType, superType){
+            var prototype = object(superType.prototype);   //create object
+            prototype.constructor = subType;               //augment object
+            subType.prototype = prototype;                 //assign object
+        }
++ 关于对象原型继承的表示，可以看下图：![Javascript Prototype Chain](http://www.mollypages.org/misc/jsobj.jpg)
++ 在有些情况下，可以使用`isPrototypeOf`进行判断是否一个对象是另一个对象的原型，同时也可使用`Object.getPrototypeOf`方法进行直接获取对象的原型。
+
 #第八章 浏览器对象模型BOM
 
 + 获取插件的方法：
