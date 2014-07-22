@@ -66,7 +66,7 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
 `text.replace(/(.at)/g, "word ($1)");`
 
 #第六章 面向对象编程
-+ 通过ES5提供的`Object.defineProperty`方法可以创建新的属性，同时为该属性设置get和set方法。
++ 通过ES5提供的`Object.defineProperty`方法可以创建访问器属性，并为该属性设置get和set方法。并且如果没有实现某一个方法，就代表这个属性不能读或者不能被赋值。若要将多个属性同时进行设置，使用的方法为`Object.defineProperties`
 
 		Object.defineProperty(book, "year", {
             get: function(){
@@ -82,7 +82,8 @@ undefined表示"缺少值"，就是此处应该有一个值，但是还没有定
             }
         });
 	在老式的浏览器中，对应的方法为__defineGetter__ 和 __defineSetter__。
-+ defineProperty同时可以设置一些基本属性，如**configurable,enumable,writable**，相应的，可以通过`Object.getOwnPropertyDescriptor`方法进而获取该对象上的上述属性值是否为true.
++ defineProperty同时可以设置一些基本属性，如**configurable,enumable,writable**，相应的，可以通过`Object.getOwnPropertyDescriptor`方法进而获取该对象上的上述属性值是否为true.若configurable为false，则该属性不能被删除或修改，若enumable为false，则该属性不能通过for in语句进行访问，若writable为false，则该属性不能被设置。
++ 如果不使用defineProperty进行设置，那么默认的configurable,enumable,writable都是为true；如果使用了defineProperty创建新的属性，但是没有为它设置configurable,enumable,writable的值，那么它们默认的值为false.
 + 对于两个已经知道类型的对象，若想让他们实现继承关系，则可以：
 
  		function object(o){
