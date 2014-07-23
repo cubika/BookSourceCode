@@ -27,11 +27,72 @@ var f = function () {
         _cssmap = {'transition':!0,'transform':!0,'animation':!0,'keyframes':!0
                   ,'box':!0,'box-pack':!0,'box-flex':!0,'marquee':!0,'border-radius':!0,'user-select':!0};
 
+
+    /**
+     * 集合转数组
+     * @param  {Object} _list 集合
+     * @return {Array}        数组
+     */
+    _h.__col2array = function(_list){
+        return _r.slice.call(_list,0);
+    };
+    
+    /**
+     * 格式化事件参数
+     */
+    _h.__formatEventArgs = function() {
+      var _args = _h.__col2array(arguments);
+      _args[0] = _e._$get(_args[0]);
+      if( !_args[0] ) return null;
+      _args[1] = (_args[1] || '').toLowerCase();
+      if( !_args[1] ) return null;
+      return _args;
+    };
+
+    /**
+     * 获取实际的事件参数
+     * 传入四个参数： 节点，事件类型，处理函数，是否捕获
+     * 返回六个参数： 节点，实际事件类型，实际事件回调，是否捕获，原始事件类型，原始事件回调
+     */
+    _h.__checkEvent = (function() {
+      var _tmap = {
+            touchstart : 'mousedown',
+            touchmove : 'mousemove',
+            touchend : 'mouseup'
+          },
+          _emap = {
+            transitionend : 'TransitionEnd'
+          };
+      // 给事件类型加前缀？
+      var _doCompletePrefix = function(_type) {
+        return (_prefix.evt || _prefix.pro) + _type;
+      };
+
+      // 不管了，只记得返回实际的事件信息就行了
+      return function() {
+        var _args = _h.__formatEventArgs.apply(_h, arguments);
+        if(!_args) return;
+        var _type1 = _emap[_args[1]],
+            _type2 = _tmap[_args[1]];
+        if ( !!_type1 ) {
+            _args[4] = _args[1];
+            _args[1] = _doCompletePrefix(_type1);
+        }else if( !!_type2 ) {
+          var _name = 'on' + _args[1];
+          if (!(_name in _args[0])) {
+            _args[4] = _args[1];
+            _args[1] = _type2;
+          }
+        }
+        return _args;
+      }
+    })(); 
+
     _h.__addEvent = function() {
     	var _args = arguments;
     	// 节点.addEventListener(事件类型，处理函数，是否捕获)
     	_args[0].addEventListener(_args[1], _args[2], !!_args[3]);
-    }
+    };
 
 
 }
