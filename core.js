@@ -262,19 +262,87 @@ define([
 			return arr == null ? -1 : indexOf.call(arr, elem, i);
 		},
 		merge: function(first, second) {
-			
+			var len = +second.length, 
+				j = 0,
+				i = first.length;
+			for(; j<len; j++) {
+				first[i++] = second[j];
+			}
+			first.length = i;
+			return first;
 		},
+		// 一般情况下，结果是callback返回false的元素集合
 		grep: function(elems, callback, invert) {
-
+			var callbackInverse,
+				matches = [],
+				i = 0,
+				length = elems.length,
+				callbackExpect = !invert;
+			for(; i<length; i++) {
+				callbackInverse = !callback(elems[i], i);
+				if(callbackInverse !== callbackExpect) {
+					matches.push(elems[i]);
+				}
+			}
+			return matches;
 		},
 		map: function(elems, callback, arg) {
-
+			var value,
+				i = 0,
+				length = elems.length,
+				isArray = isArraylike( elems ),
+				ret = [];
+			if(isArray) {
+				for(; i<length; i++) {
+					if( (value = callback(elems[i], i, arg)) != null) {
+						ret.push(value);
+					}
+				}
+			}else {
+				for( i in elems) {
+					if( (value = callback(elems[i], i, arg)) != null) {
+						ret.push(value);
+					}
+				}
+			}
+			return concat.apply([], ret);
 		},
+		// 原来就是bind啊
 		proxy: function(fn, context) {
-
+			var tmp, args, proxy;
+			// fn = {"xxx": realFn,} --> context
+			if(typeof context === "string") {
+				tmp = fn[context];
+				context = fn;
+				fn = tmp;
+			}
+			if(!jQuery.isFunction(fn)) {
+				return undefined;
+			}
+			args = slice.call(arguments, 2);
+			proxy = function() {
+				return fn.apply(context || this, args.concat(slice.call(arguments)));
+			};
+			proxy.guid = fn.guid  = fn.guid || jQuery.guid++;
+			return proxy;
 		},
 		guid: 1,
 		now: Date.now,
 		support: support
 	});
+
+	function isArraylike(obj) {
+		var length = obj.length,
+			type = jQuery.type(obj);
+		if(type === "function" || jQuery.isWindow(obj)) {
+			return false;
+		}
+		if(obj.nodeType === 1 && length) {
+			return true;
+		}
+		return type === "array" || length === 0 ||
+			typeof length === "number" && length > 0 && (length - 1) in obj;
+	}
+
+	return jQuery;
 });
