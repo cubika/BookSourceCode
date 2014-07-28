@@ -258,6 +258,7 @@ define([
 			}
 			return ret;
 		},
+		// 第三个参数代表每一次indexOf的起始地址
 		inArray: function(elem, arr, i) {
 			return arr == null ? -1 : indexOf.call(arr, elem, i);
 		},
