@@ -51,6 +51,9 @@ define([
 						});
 					}).promise();
 				},
+				//只开放与改变执行状态无关的方法（比如done()方法和fail()方法），
+				//屏蔽与改变执行状态有关的方法（比如resolve()方法和reject()方法），
+				//从而使得执行状态不能被改变。
 				promise: function(obj) {
 					return obj != null ? jQuery.extend(obj, promise) : promise;
 				}
